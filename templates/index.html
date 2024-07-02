@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv8 Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        form {
+            margin: 20px 0;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .download-link {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Image or Video for YOLOv8 Prediction</h1>
+        <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*,video/*">
+            <button type="submit">Upload</button>
+        </form>
+        {% if file_path %}
+            <div id="result">
+                <h2>Prediction Result:</h2>
+                {% if file_path.endswith(('.mp4', '.avi')) %}
+                    <video id="video-stream" controls>
+                        <source src="{{ url_for('video_feed') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    
+                {% else %}
+                    <img src="{{ url_for('static', filename=file_path) }}" alt="Result Image">
+                {% endif %}
+                <a href="{{ url_for('download_file', filename=file_path) }}" class="download-link">Download Processed File</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
