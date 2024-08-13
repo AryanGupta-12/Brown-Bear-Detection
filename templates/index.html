@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YOLOv8 Upload</title>
+    <title>Brown Bear Detection</title>
     <style>
         body {
+            background-image: url("./static/brown bear.jpg");
+            background: linear-gradient(
+                rgba(163, 148, 148, 0.3), 
+                rgba(0, 0, 0, 0.6) 
+            ), url('./static/brown bear.jpg');
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             display: flex;
@@ -16,10 +21,10 @@
         }
         
         .container {
-            background-color: #fff;
+            background-color: rgb(255, 255, 255,0.1);
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
         
@@ -55,6 +60,9 @@
         .download-link:hover {
             text-decoration: underline;
         }
+        h1{
+            font-weight : 1000;
+        }
     </style>
 </head>
 <body>
@@ -74,8 +82,9 @@
                     </video>
                     
                 {% else %}
-                    <img src="{{ url_for('static', filename=file_path) }}" alt="Result Image">
+                    <img src="{{ url_for('static',filename=file_path) }}" alt="Result Image">
                 {% endif %}
+                <p>{{text}}</p>
                 <a href="{{ url_for('download_file', filename=file_path) }}" class="download-link">Download Processed File</a>
             </div>
         {% endif %}
